@@ -14,7 +14,7 @@ function setup() {
         barriers.push(new Barrier(createVector(random(0, width), random(0, height)), createVector(random(0, width), random(0, height))));
     }
     speedSlider = createSlider(500, 5000, 2000);
-    speedSlider.position(10, height + 20);
+    speedSlider.position(10, height + 30);
 }
 
 function draw() {
