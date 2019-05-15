@@ -3,6 +3,8 @@ let barriers;
 let points;
 let angle;
 let speedSlider;
+let play;
+let playCheckbox;
 
 function setup() {
     createCanvas(800, 400);
@@ -14,7 +16,13 @@ function setup() {
         barriers.push(new Barrier(createVector(random(0, width), random(0, height)), createVector(random(0, width), random(0, height))));
     }
     speedSlider = createSlider(500, 5000, 2000);
-    speedSlider.position(10, height + 30);
+    speedSlider.position(70, height + 30);
+    play = true;
+    playCheckbox = createCheckbox('play', true);
+    playCheckbox.changed(function() {
+        play = !play;
+    });
+    playCheckbox.position(10, height + 30);
 }
 
 function draw() {
@@ -34,7 +42,9 @@ function draw() {
     // const vector = lineVector(startPos, mouse);
     let dir = p5.Vector.fromAngle(angle);
     rayMarch(startPos.copy(), dir);
-    angle += TWO_PI / speedSlider.value();
+    if (play) {
+        angle += TWO_PI / speedSlider.value();
+    }
 }
 
 function rayMarch(start, dir) {
@@ -53,9 +63,9 @@ function rayMarch(start, dir) {
         pop();
         start.add(dir.setMag(record));
     } while (record < limit && record > 1);
-    if (record <= 1) {
+    if (play && record <= 1) {
         points.push(closest);
-        if (points > 1000) {
+        if (points.length > 1000) {
             points.splice(0, 1);
         }
     }
