@@ -6,7 +6,7 @@ class Barrier {
 
   show() {
     push();
-    strokeWeight(5);
+    // strokeWeight(5);
     line(this.v1.x, this.v1.y, this.v2.x, this.v2.y);
     pop();
   }
