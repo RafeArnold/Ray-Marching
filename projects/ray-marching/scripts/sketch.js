@@ -5,6 +5,8 @@ let angle;
 let speedSlider;
 let play;
 let playCheckbox;
+let mouseActive;
+let mouseActiveCheckbox;
 
 function setup() {
     createCanvas(800, 400);
@@ -16,13 +18,20 @@ function setup() {
         barriers.push(new Barrier(createVector(random(0, width), random(0, height)), createVector(random(0, width), random(0, height))));
     }
     speedSlider = createSlider(500, 5000, 2000);
-    speedSlider.position(70, height + 30);
+    speedSlider.position(80, height + 30);
     play = true;
     playCheckbox = createCheckbox('play', true);
     playCheckbox.changed(function() {
         play = !play;
     });
-    playCheckbox.position(10, height + 30);
+    playCheckbox.position(220, height + 30);
+    mouseActive = false;
+    mouseActiveCheckbox = createCheckbox('mouse', false);
+    mouseActiveCheckbox.changed(function() {
+        mouseActive = !mouseActive;
+        playCheckbox.position(220, mouseActive ? -50 : height + 30);
+    });
+    mouseActiveCheckbox.position(10, height + 30);
 }
 
 function draw() {
@@ -37,10 +46,13 @@ function draw() {
         point(p.x, p.y);
         pop();
     }
-    // line(startPos.x, startPos.y, mouseX, mouseY);
-    // const mouse = createVector(mouseX, mouseY);
-    // const vector = lineVector(startPos, mouse);
-    let dir = p5.Vector.fromAngle(angle);
+    let dir;
+    if (mouseActive) {
+        const mouse = createVector(mouseX, mouseY);
+        dir = lineVector(startPos, mouse);
+    } else {
+        dir = p5.Vector.fromAngle(angle);
+    }
     rayMarch(startPos.copy(), dir);
     if (play) {
         angle += TWO_PI / speedSlider.value();
