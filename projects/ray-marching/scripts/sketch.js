@@ -54,7 +54,7 @@ function draw() {
         dir = p5.Vector.fromAngle(angle);
     }
     rayMarch(startPos.copy(), dir);
-    if (play) {
+    if (!mouseActive && play) {
         angle += TWO_PI / speedSlider.value();
     }
 }
