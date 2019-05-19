@@ -1,30 +1,34 @@
-let xLeft;
-let xRight;
-let yTop;
-let yBottom;
+let center;
+let centerOrigin;
 let mouseOrigin;
+let boxPos;
 
 function setup() {
     createCanvas(1200, 600);
-    xLeft = - width / 2;
-    xRight = width / 2;
-    yTop = - height / 2;
-    yBottom = height / 2;
+    center = createVector(width / 2, height / 2);
+    boxPos = createVector(width / 2, height / 2);
 }
 
 function draw() {
     background(200);
     push();
     textAlign(RIGHT);
-    text("(" + xLeft + ", " + xRight + ") x", width - 10, 20);
-    text("(" + yTop + ", " + yBottom + ") y", width - 10, 40);
+    text("(" + center.x + ", " + center.y + ")", width - 10, 20);
+    translate(center.x - width / 2, center.y - height / 2);
+    rect(boxPos.x, boxPos.y, 10, 10);
     pop();
 }
 
 function mousePressed() {
-    mouseXOrigin = mouseX;
-    mouseYOrigin = mouseY;
+    centerOrigin = center.copy();
+    mouseOrigin = createVector(mouseX, mouseY);
 }
 
 function mouseDragged() {
+    center.x = centerOrigin.x + (mouseX - mouseOrigin.x);
+    center.y = centerOrigin.y + (mouseY - mouseOrigin.y);
+}
+
+function mouseWheel(event) {
+    console.log(event.delta);
 }
