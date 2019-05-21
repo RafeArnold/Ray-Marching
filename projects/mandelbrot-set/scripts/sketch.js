@@ -7,9 +7,9 @@ let mouseOrigin;
 
 function setup() {
     createCanvas(800, 600);
-    // topLeft = createVector(- width / 2, - height / 2);
-    topLeft = createVector(- 1200, - 400);
-    zoom = 1000;
+    topLeft = createVector(- width / 2, - height / 2);
+    // topLeft = createVector(- 1200, - 400);
+    zoom = 250;
     maxIterations = 50;
     set = findSet();
 }
