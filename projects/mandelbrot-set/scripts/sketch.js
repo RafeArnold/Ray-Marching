@@ -1,34 +1,80 @@
-let center;
-let centerOrigin;
+let topLeft;
+let zoom;
+let maxIterations;
+let set;
+let topLeftOrigin;
 let mouseOrigin;
-let boxPos;
 
 function setup() {
-    createCanvas(1200, 600);
-    center = createVector(width / 2, height / 2);
-    boxPos = createVector(width / 2, height / 2);
+    createCanvas(800, 600);
+    // topLeft = createVector(- width / 2, - height / 2);
+    topLeft = createVector(- 1200, - 400);
+    zoom = 1000;
+    maxIterations = 50;
+    set = findSet();
 }
 
 function draw() {
     background(200);
-    push();
+    for (let x = 0; x < width; x++) {
+        for (let y = 0; y < height; y++) {
+            stroke(map(set[x][y], 0, 50, 255, 0));
+            point(x, y);
+        }
+    }
     textAlign(RIGHT);
-    text("(" + center.x + ", " + center.y + ")", width - 10, 20);
-    translate(center.x - width / 2, center.y - height / 2);
-    rect(boxPos.x, boxPos.y, 10, 10);
-    pop();
+    text("(" + topLeft.x + ", " + topLeft.y + ")", width - 10, 20);
+}
+
+function findSet() {
+    let temp = [];
+    for (let x = 0; x < width; x++) {
+        temp[x] = [];
+        for (let y = 0; y < height; y++) {
+            temp[x][y] = mandelbrot((topLeft.x + x) / zoom, (topLeft.y + y) / zoom);
+        }
+    }
+    return temp;
+}
+
+//returns number of iterations before absolutely going over 2
+function mandelbrot(a, b) {
+    if (abs(a, b) > 2) {
+        return 0;
+    }
+    let c = createVector(a, b);
+    let totalSteps;
+    let z = createVector(0, 0);
+    for (totalSteps = 0; totalSteps < maxIterations && abs(z.x, z.y) <= 2; totalSteps++) {
+        z.add(c);
+        z = compSq(z.x, z.y);
+    }
+    return totalSteps;
+}
+
+function compSq(a, b) {
+    return createVector(sq(a) - sq(b), 2 * a * b);
+}
+
+function abs(a, b) {
+    return sqrt(sq(a), sq(b));
 }
 
 function mousePressed() {
-    centerOrigin = center.copy();
+    topLeftOrigin = topLeft.copy();
     mouseOrigin = createVector(mouseX, mouseY);
 }
 
 function mouseDragged() {
-    center.x = centerOrigin.x + (mouseX - mouseOrigin.x);
-    center.y = centerOrigin.y + (mouseY - mouseOrigin.y);
+    topLeft.x = topLeftOrigin.x - (mouseX - mouseOrigin.x);
+    topLeft.y = topLeftOrigin.y - (mouseY - mouseOrigin.y);
+}
+
+function mouseReleased() {
+    set = findSet();
 }
 
 function mouseWheel(event) {
-    console.log(event.delta);
+    zoom -= event.delta;
+    set = findSet();
 }
