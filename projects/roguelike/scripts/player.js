@@ -29,15 +29,6 @@ class Player {
     }
 
     move() {
-    // if (keyCode == LEFT_ARROW || key == 'a') {
-    //     leftHeld = true;
-    // } else if (keyCode == UP_ARROW || key == 'w') {
-    //     upHeld = true;
-    // } else if (keyCode == RIGHT_ARROW || key == 'd') {
-    //     rightHeld = true;
-    // } else if (keyCode == DOWN_ARROW || key == 's') {
-    //     downHeld = true;
-    // }
         for (let i = 0; i < this.speed; i++) {
             if (keysHeld.includes(LEFT_ARROW) || keysHeld.includes(65)) {
                 this.pos.x--;
