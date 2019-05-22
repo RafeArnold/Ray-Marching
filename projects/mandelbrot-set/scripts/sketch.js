@@ -80,6 +80,10 @@ function mouseReleased() {
 }
 
 function mouseWheel(event) {
-    zoom -= event.delta * zoom / 100;
+    if (event.delta < 0) {
+        zoom *= 2;
+    } else {
+        zoom /= 2;
+    }
     set = findSet();
 }
