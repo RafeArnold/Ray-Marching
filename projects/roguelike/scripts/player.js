@@ -10,6 +10,7 @@ class Player {
         this.color = 'gray';
         this.speed = 2;
         this.bullets = [];
+        this.fov = HALF_PI;
     }
 
     shoot() {
@@ -53,14 +54,20 @@ class Player {
 
     show() {
         push();
+        for (let rayAngle = 0; rayAngle < this.fov; rayAngle += TWO_PI / 200) {
+            let ray = createVector(300, 0);
+            ray.rotate(this.angle + rayAngle - this.fov / 2);
+            ray.add(this.pos);
+            line(this.pos.x, this.pos.y, ray.x, ray.y);
+        }
         this.bullets.forEach(function(bullet) {
             bullet.show();
         });
         strokeWeight(2);
-        let vector = createVector(15, 0);
-        vector.rotate(this.angle);
-        vector.add(this.pos);
-        line(this.pos.x, this.pos.y, vector.x, vector.y);
+        let barrel = createVector(15, 0);
+        barrel.rotate(this.angle);
+        barrel.add(this.pos);
+        line(this.pos.x, this.pos.y, barrel.x, barrel.y);
         fill(this.color);
         ellipse(this.pos.x, this.pos.y, 2 * this.rad);
         pop();
