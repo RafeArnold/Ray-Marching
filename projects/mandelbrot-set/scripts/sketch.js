@@ -24,7 +24,7 @@ function draw() {
     }
 	let textPos = createVector(width - 10, 20);
     textAlign(RIGHT);
-	fill(map(set[textPos.x][textPos.y], 0, maxIterations, 0, 255));
+	fill(map(set[textPos.x][textPos.y], 0, maxIterations, 127, 382));
 	text("(" + center.x + ", " + center.y + ")", textPos.x, textPos.y);
     text(zoom, textPos.x, textPos.y + 20);
 }
