@@ -23,6 +23,31 @@ function draw() {
         wall.show();
     });
     updatePlayer();
+
+    exclaim();
+}
+
+let scale = 0;
+let animationCount = 0;
+let animationDuration = 60;
+
+function exclaim() {
+    push();
+    fill('red');
+    textAlign(CENTER);
+    textSize(100 * scale);
+    text('!', 0, 0);
+    animationCount++;
+    let firstDuration = 0.2 * animationDuration;
+    let secondDuration = 0.3 * animationDuration;
+    if (animationCount <= firstDuration) {
+        scale = lerp(0, 1.2, animationCount / firstDuration);
+    } else if (animationCount <= secondDuration) {
+        scale = lerp(1.5, 1, (animationCount - firstDuration) / secondDuration);
+    } else if (animationCount >= animationDuration) {
+        animationCount = 0;
+    }
+    pop();
 }
 
 function updatePlayer() {
